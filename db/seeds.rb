@@ -5,8 +5,23 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-User.create(email: "test@ex.com", name: "test", password: "password", password_confirmation: "password")
-User.create(email: "nour@ex.com", name: "Nour", password: "password", password_confirmation: "password")
+User.create(email: 'nour@ex.com',
+    password: "password",
+    password_confirmation: "password",
+    name: 'Nour',
+    role: User.roles[:admin])
+User.create(email: 'test@ex.com',
+    password: "password",
+    password_confirmation: "password",
+    name: 'Test')
+
 10.times do |x|
-    Post.create(title: "Title #{x}", body: "Body #{x} keep moving ", user_id: User.first.id)
+    post = Post.create(title: "No. #{x}",
+                    body: "keep trying #{x} once more",
+                        user_id: User.first.id)
+    5.times do |y|
+        Comment.create(body: "Comment #{y}",
+                        user_id: User.second.id,
+                        post_id: post.id)
+        end
 end
