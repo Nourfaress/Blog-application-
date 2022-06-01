@@ -15,13 +15,25 @@ User.create(email: 'test@ex.com',
     password_confirmation: "password",
     name: 'Test')
 
-10.times do |x|
-    post = Post.create(title: "No. #{x}",
-                    body: "keep trying #{x} once more",
+posts = []
+comments = []
+
+elapsed = Benchmark.measure do
+    1000.times do |x|
+        puts "Creating post #{x}"
+        post = Post.new(title: "No. #{x}",
+                        body: "keep trying #{x} once more",
                         user_id: User.first.id)
-    5.times do |y|
-        Comment.create(body: "Comment #{y}",
-                        user_id: User.second.id,
-                        post_id: post.id)
+        posts.push(post)
+
+        10.times do |y|
+        puts "Creating comment #{y} for post #{x}"
+        comment = post.comments.new(body: "Comment #{y}",
+                        user_id: User.second.id)
+        comments.push(comment)
         end
+    end
 end
+Post.import(posts)
+Comment.import(comments)
+puts "Elapsed time is #{elapsed.real} seconds"
