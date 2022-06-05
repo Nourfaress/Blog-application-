@@ -7,12 +7,13 @@ Rails.application.routes.draw do
     get 'admin/show_post/:id', to: "admin#show_post", as: 'admin_post'
   end
   get 'search', to: 'search#index'
-  get 'users/profile'
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
   get '/u/:id', to: 'users#profile', as: 'user'
+  resources :after_signup 
   
   # /post/1/comments/4
   resources :posts do
